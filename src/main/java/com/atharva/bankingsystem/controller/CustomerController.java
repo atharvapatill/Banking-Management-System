@@ -6,6 +6,7 @@ import com.atharva.bankingsystem.service.CustomerService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,6 +22,7 @@ public class CustomerController {
     }
 
     // Create Customer
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'CLERK', 'CASHIER')")
     @PostMapping
     public ResponseEntity<CustomerResponse> createCustomer(@Valid @RequestBody CustomerRequest customerRequest) {
         CustomerResponse customerResponse = customerService.createCustomer(customerRequest);
@@ -28,6 +30,7 @@ public class CustomerController {
     }
 
     // Get All Customers
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'CLERK', 'CASHIER')")
     @GetMapping
     public ResponseEntity<List<CustomerResponse>> getAllCustomers() {
         System.out.println("Inside getAllCustomers()");
@@ -36,6 +39,7 @@ public class CustomerController {
     }
 
     // Get Customer By ID
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'CLERK', 'CASHIER')")
     @GetMapping("/{id}")
     public ResponseEntity<CustomerResponse> getCustomerById(@PathVariable Long id) {
         CustomerResponse customer = customerService.getCustomerById(id);
@@ -43,6 +47,7 @@ public class CustomerController {
     }
 
     // Update Customer
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'CLERK', 'CASHIER')")
     @PutMapping("/{id}")
     public ResponseEntity<CustomerResponse> updateCustomer(@PathVariable Long id, @Valid @RequestBody CustomerRequest customerRequest) {
         CustomerResponse updatedCustomer = customerService.updateCustomer(id, customerRequest);
