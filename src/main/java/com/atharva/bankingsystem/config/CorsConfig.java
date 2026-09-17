@@ -18,8 +18,7 @@ public class CorsConfig {
 
         // React frontend URL
         configuration.setAllowedOrigins(List.of(
-                "http://localhost:5173",
-                "http://localhost:3000"
+                "https://coreledger-frontend.onrender.com"
         ));
 
         // Allowed HTTP methods
