@@ -12,6 +12,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -23,7 +26,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(
+    public ResponseEntity<Map<String, String>> login(
             @RequestBody LoginRequest loginRequest,
             HttpServletRequest request) {
 
@@ -44,11 +47,14 @@ public class AuthController {
                 context
         );
 
-        return ResponseEntity.ok("Login Successful");
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Login Successful");
+
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<String> logout(HttpServletRequest request) {
+    public ResponseEntity<Map<String, String>> logout(HttpServletRequest request) {
 
         HttpSession session = request.getSession(false);
 
@@ -58,6 +64,9 @@ public class AuthController {
 
         SecurityContextHolder.clearContext();
 
-        return ResponseEntity.ok("Logout Successful");
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Logout Successful");
+
+        return ResponseEntity.ok(response);
     }
 }
